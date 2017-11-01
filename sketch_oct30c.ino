@@ -51,28 +51,36 @@ void setup() {
 
 void loop() {
 
-  SonarSensor(trigPin1, echoPin1);
+  sonarSensor(trigPin1, echoPin1);
   rightEdgeSonarSensor = sonarDistance;
-  SonarSensor(trigPin2, echoPin2);
+  sonarSensor(trigPin2, echoPin2);
   leftEdgeSonarSensor = sonarDistance;
-  SonarSensor(trigPin3, echoPin3);
+  sonarSensor(trigPin3, echoPin3);
   frontSonarSensor = sonarDistance; //distance ahead is 26
-  SonarSensor(trigPin4, echoPin4);
+  sonarSensor(trigPin4, echoPin4);
   backSonarSensor = sonarDistance;
-  SonarSensor(trigPin5, echoPin5);
+  sonarSensor(trigPin5, echoPin5);
   rightSonarSensor = sonarDistance;
-  SonarSensor(trigPin6, echoPin6);
+  sonarSensor(trigPin6, echoPin6);
   leftSonarSensor = sonarDistance;
   
   tapeSensorRight = digitalRead(tapeSense1);
   tapeSensorLeft = digitalRead(tapeSense2);
 
-if(tapeSensorRight == HIGH)
-{
-}
-if(tapeSensorLeft == HIGH)
-{
-}
+  if(tapeSensorRight == HIGH) // if the sensor is on the tape it goes iw
+  {
+    turnRight();
+    while (tapeSensorLeft == LOW) {
+      turnRight();
+    }
+  }
+  if(tapeSensorLeft == HIGH)
+  {
+    turnLeft();
+    while (tapeSensorLeft == LOW) {
+      turnLeft();
+    }
+  }
 
   
   if (rightEdgeSonarSensor <= 6 && leftEdgeSonarSensor <= 6) //move forward on both motors
@@ -143,10 +151,9 @@ void reverseTurn(){
   digitalWrite(motorLBackward, LOW);   
   analogWrite(motorLPower,70);
   delay(1000); 
-} 
+}
 
-
-void SonarSensor(int trigPin,int echoPin) //read sensor 
+void sonarSensor(int trigPin,int echoPin) //read sensor 
 {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
