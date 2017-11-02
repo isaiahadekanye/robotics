@@ -68,30 +68,21 @@ void loop() {
   tapeSensorRight = digitalRead(tapeSense1);
   tapeSensorLeft = digitalRead(tapeSense2);
 
+  if (tapeSensorLeft == HIGH)
+	turnRight();
+  else if (tapeSensorRight == High)
+	turnLeft();
   
-  
-  if (rightSonarSensor >= obsticaleRangeDistance && leftSonarSensor >= obsticaleRangeDistance && frontSonarSensor >= obsticaleRangeDistance)
+  if (rightSonarSensor <= obsticaleRangeDistance && leftSonarSensor <= obsticaleRangeDistance && frontSonarSensor <= obsticaleRangeDistance)
     reverseTurn();
-  else if (frontSonarSensor >= obsticaleRangeDistance)
+  else if (frontSonarSensor <= obsticaleRangeDistance)
     reverseTurn();
-  else if ((rightEdgeSonarSensor >= 6 && leftEdgeSonarSensor <= 6) || rightSonarSensor >= obsticaleRangeDistance) //right edge sensor is off table
+  else if ((rightEdgeSonarSensor >= 6 && leftEdgeSonarSensor <= 6) || rightSonarSensor <= obsticaleRangeDistance) //right edge sensor is off table
     turnLeft();
-  else if ((rightEdgeSonarSensor <= 6 && leftEdgeSonarSensor >= 6) || leftSonarSensor >= obsticaleRangeDistance) //left edge sensor is off table
+  else if ((rightEdgeSonarSensor <= 6 && leftEdgeSonarSensor >= 6) || leftSonarSensor <= obsticaleRangeDistance) //left edge sensor is off table
     turnRight();
-  else if (rightEdgeSonarSensor <= 6 && leftEdgeSonarSensor <= 6) { //if both sensors are on the table,
-    if(tapeSensorRight == HIGH) { // if the sensor is on the tape go
-      turnRight();
-      while (tapeSensorLeft == LOW)
-        turnRight();
-    }
-    else if (tapeSensorLeft == HIGH) {    
-      turnLeft();
-      while (tapeSensorLeft == LOW)
-        turnLeft();
-    }
-    else
-      goStraight();
-  }
+  else if (rightEdgeSonarSensor <= 6 && leftEdgeSonarSensor <= 6) //if both sensors are on the table,
+    goStraight();
   else
     reverseTurn();
 
